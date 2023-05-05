@@ -7,4 +7,67 @@
         <link rel = "stylesheet" href="./assets/css/reset.css">
         <link rel = "stylesheet" href="./assets/css/style.css">
     </head>
+
+    <body>
+        <header>
+            <h1>Weather Dashboard</h1>
+        </header>
+
+        <section id="search">
+            <h2>Search for a City:</h2>
+            <input id="searchbox" type="text" placeholder="Portsmouth">
+            <button id="submit" type="submit">Search</button>
+            <br>
+            <div id="searchlist"></div>
+        </section>
+
+        <main>
+            <section class="container">
+                <h2 id="currentcity"></h2>
+                <p id="currenttemp"></p>
+                <p id="currentwind"></p>
+                <p id="currenthumid"></p>
+            </section>
+
+            <section id="forecast">
+                <h3>5-Day Forecast:</h3>
+                <section class="container">   
+                    <div id="date+1"></div>
+                    <div id="icon+1"></div>
+                    <div id="temp+1"></div>
+                    <div id="wind+1"></div>
+                    <div id="humid+1"></div>
+                </section>
+                <section class="container">   
+                    <div id="date+2"></div>
+                    <div id="icon+2"></div>
+                    <div id="temp+2"></div>
+                    <div id="wind+2"></div>
+                    <div id="humid+2"></div>
+                </section>
+                <section class="container">   
+                    <div id="date+3"></div>
+                    <div id="icon+3"></div>
+                    <div id="temp+3"></div>
+                    <div id="wind+3"></div>
+                    <div id="humid+3"></div>
+                </section>
+                <section class="container">   
+                    <div id="date+4"></div>
+                    <div id="icon+4"></div>
+                    <div id="temp+4"></div>
+                    <div id="wind+4"></div>
+                    <div id="humid+4"></div>
+                </section>
+                <section class="container">   
+                    <div id="date+5"></div>
+                    <div id="icon+5"></div>
+                    <div id="temp+5"></div>
+                    <div id="wind+5"></div>
+                    <div id="humid+5"></div>
+                </section>
+            </section>
+
+        </main>
+    </body>
 </html>
