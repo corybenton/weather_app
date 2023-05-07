@@ -114,7 +114,7 @@ searchList.addEventListener("click", function(event) {
                     if (j == 0) {
                         cityRecall = cityRecall.textContent + " (" + dayjs().format("MM/DD/YYYY") + ") ";
                     } else {
-                        thisItem.textContent = dayjs().add(j, "day");
+                        thisItem.textContent = dayjs().add(j, "day").format("MM/DD/YYYY0");
                     }
                 } else {
                     if (j == 0) {
