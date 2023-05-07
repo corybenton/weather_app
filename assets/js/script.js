@@ -28,6 +28,7 @@ function getWeather(city) {
     .then (function(data) {
         console.log (data);
         displayWeather(data);
+        displayCityHistory(data);
     })
     
 }
@@ -38,6 +39,7 @@ function displayWeather(weatherArray){
     const temps = [];
     const winds = [];
     const humids = [];
+    const clouds = [];
     let suffix = "";
     
     for (let i = 0; i < weatherArray.list.length; i = i + 8) {
@@ -46,31 +48,87 @@ function displayWeather(weatherArray){
         temps.push(weatherArray.list[i].main.temp);
         winds.push(weatherArray.list[i].wind.speed);
         humids.push(weatherArray.list[i].main.humidity);
+        if (weatherArray.list[i].clouds.all >= 70) {
+            clouds.push("\u{2601}");
+        } else if (weatherArray.list[i].clouds.all <= 20) {
+            clouds.push("\u{1F506}");
+        } else {
+            clouds.push("\u{26C5}");
+        }
     }
-
+    console.log (clouds);
     for (let i = 0; i < temps.length; i++) {
         if (i == 0) {
             const currentcity = document.getElementById("currentcity");
-            currentcity.textContent = cityName // + icon;
+            currentcity.textContent = cityName + " " + clouds[i];
             suffix = "current";
         } else {
             suffix = "+" + i;
             const thisDate = document.getElementById("date" + suffix);
             thisDate.textContent = "Date: " + dayjs().add(i, 'day').format("MM/DD/YYYY");
-            
         }
 
-        
         const thisTemp = document.getElementById("temp" + suffix);
         thisTemp.textContent = "Temp: " + temps[i] + "\xB0F";
         const thisWind = document.getElementById("wind" + suffix);
         thisWind.textContent = "Wind: " + winds[i] + " MPH";
         const thisHumid = document.getElementById("humid" + suffix);
         thisHumid.textContent = "Humidity: " + humids[i] + "%"; 
+        if (i > 0) {
+            const thisCloud = document.getElementById("icon" + suffix);
+            thisCloud.textContent = " " + clouds[i];
+        }
         
-        localStorage.setItem(cityName, [temps, winds, humids]);
-
-        
+        localStorage.setItem(weatherArray.city.name + ", " + weatherArray.city.country
+            , JSON.stringify([temps, winds, humids, clouds]));        
     }
 }
 
+function displayCityHistory(weatherArray) {
+    const cityName = weatherArray.city.name + ", " + weatherArray.city.country;
+    const cityPlace = document.createElement("a");
+    cityPlace.innerText = cityName;
+    cityPlace.setAttribute("href", "#search");
+    cityPlace.setAttribute("class", "recall");
+    document.getElementById("searchlist").appendChild(cityPlace);
+}
+
+searchList.addEventListener("click", function(event) {
+    let cityRecall = event.target;
+    if (cityRecall.matches(".recall")) {
+        const recallArray = JSON.parse(localStorage.getItem (cityRecall.textContent));
+        const arrayOrder = ["temp", "wind", "humid", "icon", "date"];
+        for (let i = 0; i < arrayOrder.length; i++) {
+            let suffix = "current"
+            const recallItem = arrayOrder[i];
+            for (let j = 0; j < 6; j++) {
+                const recallTarget = recallItem + suffix;
+                const thisItem = document.getElementById(recallTarget);
+                if (i == 0) {
+                    thisItem.textContent = "Temp: " + recallArray[i][j] + "\xB0F";
+                } else if (i == 1) {
+                    thisItem.textContent = "Wind: " + recallArray[i][j] + " MPH";
+                } else if (i == 2) {
+                    thisItem.textContent = "Humidity: " + recallArray[i][j] + "%"; 
+                } else if (i == 3) {
+                    if (j == 0) {
+                        cityRecall = cityRecall.textContent + " (" + dayjs().format("MM/DD/YYYY") + ") ";
+                    } else {
+                        thisItem.textContent = dayjs().add(j, "day");
+                    }
+                } else {
+                    if (j == 0) {
+                        cityRecall = cityRecall + recallArray[3][j]
+                    } else {
+                        thisItem.textContent = recallArray[3][j];
+                    }
+                }
+                suffix = "+" + (j + 1)
+            }
+            //recallArray.splice(0, 6);
+            //i = 0;
+        }
+        document.getElementById("currentcity").textContent = cityRecall; 
+            
+    }
+})
