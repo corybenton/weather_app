@@ -125,8 +125,6 @@ searchList.addEventListener("click", function(event) {
                 }
                 suffix = "+" + (j + 1)
             }
-            //recallArray.splice(0, 6);
-            //i = 0;
         }
         document.getElementById("currentcity").textContent = cityRecall; 
             
