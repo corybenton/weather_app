@@ -63,6 +63,7 @@ a {
     display: flex;
     flex-direction: row;
     font-family: "Teko";
+    margin-left: 2%;
 }
 
 #forecast .container {
@@ -70,6 +71,7 @@ a {
     color: var(--color3);
     margin: .5% .5%;
     padding: 1%;
+    width: 18.5%;
 }
 
 .container div {
@@ -79,7 +81,7 @@ a {
 
 h3 {
     font-size: 30px;
-    
+    margin-left: 2%;
 }
 
 #current p {
@@ -88,10 +90,12 @@ h3 {
     padding: 1.5% .5%;
 }
 
-@media screen and (max-width: 825px) {
+@media screen and (max-width: 700px) {
 
     #forecast {
         display: flex;
+        width: 500%;
         flex-direction: column;
+        flex-wrap: wrap;
     }
 }
